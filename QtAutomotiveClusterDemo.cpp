@@ -17,45 +17,26 @@ QtAutomotiveClusterDemo::QtAutomotiveClusterDemo(QWidget *parent, Qt::WindowFlag
 
 void QtAutomotiveClusterDemo::buttonSlot(int signal)
 {
-    if(signal == 0)
+    if(signal == 1)
 	{
-		qDebug() << "Called the C++ slot with" << signal;
-	}
-	else
-	{
-		qDebug() << "Called the C++ slot with" << signal;
-	}
+        if (sumo == 0) qDebug() << "Connected! " << signal;
+        sumo = new sumo::Control(new sumo::ImageMplayerPopen());
+        if (!sumo->open()) {
+          delete sumo;
+          sumo = 0;
+          return;
+        }
 
-    /*
-    try {
+        timer_id = startTimer(10);
+	}
+    else {
         if (sumo) {
+            qDebug() << "Disconnected! " << signal;
             killTimer(timer_id);
             sumo->close();
             delete sumo; sumo = 0;
-            //_open_close->setText("Open");
-            printf("haloooo ");
-            fprintf(stderr, "gfhfhfgh \n");
-        } else {
-            sumo = new sumo::Control(new sumo::ImageMplayerPopen());
-            if (!sumo->open()) {
-                delete sumo;
-                sumo = 0;
-                return;
-            }
-
-            timer_id = startTimer(75);
-            //_open_close->setText("Close");
-            printf("haloooo ");
-            fprintf(stderr, "gfhfhfgh \n");
         }
-    } catch (std::exception &e) {
-
-            qDebug() << "Err: " << e.what();
-    } catch (...) {
-            qDebug() << "Err: ";
-    }
-    qDebug() << "sunt aici";
-*/
+	}
 }
 
 QtAutomotiveClusterDemo::~QtAutomotiveClusterDemo()
@@ -96,6 +77,7 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
             mod = ACCELERATION_CONSTANT;
 
             mod = ACCELERATION_CONSTANT * 2;
+            qDebug() << "apas sus";
     }
 
     if (keys[Qt::Key_Down]) {
@@ -103,6 +85,7 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
             mod = -ACCELERATION_CONSTANT;
 
             mod = -ACCELERATION_CONSTANT * 2;
+            qDebug() << "apas jos";
     }
 
     accel += mod;

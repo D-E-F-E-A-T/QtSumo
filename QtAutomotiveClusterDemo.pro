@@ -12,6 +12,7 @@ TARGET = QtAutomotiveClusterDemo
 
 CONFIG += console
 CONFIG += c++11
+CONFIG += thread
 
 INCLUDEPATH += ./GeneratedFiles \
     .build \
@@ -33,6 +34,7 @@ QT = core \
     declarative
 
 QT += widgets
+LIBS += -L/lib
 
 # use OpenGL where available
 contains(QT_CONFIG, opengl)|contains(QT_CONFIG, opengles1)|contains(QT_CONFIG, opengles2) {

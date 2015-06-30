@@ -25,7 +25,7 @@ class QtAutomotiveClusterDemo : public QMainWindow
     int accel;
     int turn;
 
-    sumo::Control *sumo;
+    sumo::Control *sumo = 0;
 
     int timer_id;
 

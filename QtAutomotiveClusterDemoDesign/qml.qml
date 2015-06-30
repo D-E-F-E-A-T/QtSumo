@@ -279,7 +279,7 @@ Rectangle {
             {
                 rpmValue = 60;
                 speedValue = speedValue - 3
-                indicatorflash.running = true
+                //indicatorflash.running = true
                 gear = 4
             }
             rpmValue = rpmValue + 1.5
@@ -596,7 +596,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: "Distance: 5000"
+         text: ""
          smooth: true
          opacity: 0
          style: Text.Raised
@@ -610,7 +610,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: "Destination: 51 Street"
+         text: ""
          smooth: true
          opacity: 0
          style: Text.Raised
@@ -624,7 +624,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: "Time: 12:45:07"
+         text: ""
          smooth: true
          opacity: 0
          style: Text.Raised
@@ -638,7 +638,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: " Date: 28:02:2017"
+         text: ""
          smooth: true
          opacity: 0
          style: Text.Raised

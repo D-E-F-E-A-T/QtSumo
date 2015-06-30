@@ -467,7 +467,7 @@ bind_error:
 
 void Control::close()
 {
-	::close(_udp); /* close udp before so that a blocking recv waked up */
+    ::close(_udp); /* close udp before so that a blocking recv waked up */
 	stop();
 	_dispatch_thread.join();
 
