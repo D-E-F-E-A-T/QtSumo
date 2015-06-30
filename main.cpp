@@ -10,8 +10,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	QDeclarativeView view, graphView;
 
-
-    QString branch = qApp->applicationDirPath();
+    QString branch = qApp->applicationDirPath(); // qApp->rootObject();
     QtAutomotiveClusterDemo w;
     view.rootContext()->setContextProperty("myObject", &w);							// set the myObject to communicate between qml and c++
 
@@ -27,5 +26,6 @@ int main(int argc, char *argv[])
     //view.showFullScreen();
     view.show();
     //w.showMaximized();
+
     return a.exec();
 }

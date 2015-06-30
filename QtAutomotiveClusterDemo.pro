@@ -10,6 +10,9 @@
 TEMPLATE = app
 TARGET = QtAutomotiveClusterDemo
 
+CONFIG += console
+CONFIG += c++11
+
 INCLUDEPATH += ./GeneratedFiles \
     .build \
     . \
@@ -30,8 +33,6 @@ QT = core \
     declarative
 
 QT += widgets
-
-CONFIG += console
 
 # use OpenGL where available
 contains(QT_CONFIG, opengl)|contains(QT_CONFIG, opengles1)|contains(QT_CONFIG, opengles2) {
@@ -74,3 +75,19 @@ unix {
 
 DISTFILES += \
     QtAutomotiveClusterDemoDesign/qml_800x480.qml
+
+HEADERS += \
+    lib/basics.h \
+    lib/common.h \
+    lib/control.h \
+    lib/decode.h \
+    lib/image.h \
+    lib/protocol.h \
+    lib/realtime.h
+
+SOURCES += \
+    lib/common.cpp \
+    lib/control.cpp \
+    lib/decode.cpp \
+    lib/image.cpp \
+    lib/realtime.cpp

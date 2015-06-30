@@ -464,6 +464,7 @@ Rectangle {
                      rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
                      digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
                      dummyAnimation.start()
+                     myObject.buttonSlot(1);
                  }
                  if(startFlag == false)
                  {
@@ -484,6 +485,7 @@ Rectangle {
                      fuelLeak.visible = 0
                      brake.visible = 0
                      battery.visible = 0
+                     myObject.buttonSlot(0);
                  }
 
                 rpmOverlay.visible = startFlag
