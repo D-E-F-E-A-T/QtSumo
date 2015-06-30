@@ -1,10 +1,10 @@
 #ifndef QtAutomotiveClusterDemo_H
 #define QtAutomotiveClusterDemo_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include "ui_QtAutomotiveClusterDemo.h"
 #include <QDeclarativeView>
- #include <QDeclarativeContext>
+#include <QDeclarativeContext>
 #include <QWidget>
 #include <QLayout>
 #include <QObject>
@@ -17,7 +17,7 @@ class QtAutomotiveClusterDemo : public QMainWindow
 	Q_OBJECT
 
 public:
-	QtAutomotiveClusterDemo(QWidget *parent = 0, Qt::WFlags flags = 0);
+    QtAutomotiveClusterDemo(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~QtAutomotiveClusterDemo();
 
 public slots:

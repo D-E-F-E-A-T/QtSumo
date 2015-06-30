@@ -29,6 +29,10 @@ QT = core \
     sql \
     declarative
 
+QT += widgets
+
+CONFIG += console
+
 # use OpenGL where available
 contains(QT_CONFIG, opengl)|contains(QT_CONFIG, opengles1)|contains(QT_CONFIG, opengles2) {
     QT += opengl
@@ -67,3 +71,6 @@ unix {
     INSTALLS += target \
         qml \
 }
+
+DISTFILES += \
+    QtAutomotiveClusterDemoDesign/qml_800x480.qml

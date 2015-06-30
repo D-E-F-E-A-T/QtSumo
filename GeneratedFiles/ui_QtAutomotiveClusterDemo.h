@@ -11,12 +11,12 @@
 #define UI_QTAUTOMOTIVECLUSTERDEMO_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QHeaderView>
-#include <QtGui/QMainWindow>
-#include <QtGui/QWidget>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QHeaderView>
+#include <QMainWindow>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -46,8 +46,8 @@ public:
 
     void retranslateUi(QMainWindow *QtAutomotiveClusterDemoClass)
     {
-        QtAutomotiveClusterDemoClass->setWindowTitle(QApplication::translate("QtAutomotiveClusterDemoClass", "QtAutomotiveClusterDemo", 0, QApplication::UnicodeUTF8));
-        actionExit->setText(QApplication::translate("QtAutomotiveClusterDemoClass", "E&xit", 0, QApplication::UnicodeUTF8));
+        QtAutomotiveClusterDemoClass->setWindowTitle(QApplication::translate("QtAutomotiveClusterDemoClass", "QtAutomotiveClusterDemo", 0));
+        actionExit->setText(QApplication::translate("QtAutomotiveClusterDemoClass", "E&xit", 0));
     } // retranslateUi
 
 };
