@@ -4,7 +4,6 @@
 #include <QApplication>
 #include <QTextStream>
 
-
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -13,6 +12,7 @@ int main(int argc, char *argv[])
     QString branch = qApp->applicationDirPath(); // qApp->rootObject();
     QtAutomotiveClusterDemo w;
     view.rootContext()->setContextProperty("myObject", &w);				// set the myObject to communicate between qml and c++
+
 
 #ifdef RESOLUTION_1024x600
     QTextStream(stdout) << branch.toLatin1() + "/QtAutomotiveClusterDemoDesign/qml_1024x600.qml" << endl;
@@ -28,5 +28,6 @@ int main(int argc, char *argv[])
     view.show();
     //w.showMaximized();
 
+    //a.installEventFilter(&w);
     return a.exec();
 }

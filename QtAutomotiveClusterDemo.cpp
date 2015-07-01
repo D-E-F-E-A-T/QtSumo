@@ -9,10 +9,42 @@
 #include "lib/image.h"
 
 QtAutomotiveClusterDemo::QtAutomotiveClusterDemo(QWidget *parent, Qt::WindowFlags flags)
-	: QMainWindow(parent, flags)
+    : QMainWindow(parent, flags), accel(0), turn(0), sumo(0)
 {
 	ui.setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
+    installEventFilter(this);
+}
+/*
+bool QtAutomotiveClusterDemo::eventFilter(QObject *target, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Escape)
+        {
+            this->close();
+            return QMainWindow::eventFilter(target,event);
+        }
+    }
+    return QMainWindow::eventFilter(target,event);
+}*/
+
+void QtAutomotiveClusterDemo::updateAcceleration(int acc) {
+    //qDebug() << "acc: "<< acc << " turn: " << trn;
+
+    if (sumo) {
+        accel = acc;
+    }
+}
+
+void QtAutomotiveClusterDemo::updateTurn(int trn) {
+    //qDebug() << "acc: "<< acc << " turn: " << trn;
+
+    if (sumo) {
+        turn = trn;
+    }
 }
 
 void QtAutomotiveClusterDemo::buttonSlot(int signal)
@@ -24,6 +56,8 @@ void QtAutomotiveClusterDemo::buttonSlot(int signal)
         if (!sumo->open()) {
           delete sumo;
           sumo = 0;
+          //QObject *newBtn = parent()->findChild<QObject*>("on_off_button");
+          //newBtn->setProperty("flipped", false);
           return;
         }
 
@@ -62,9 +96,10 @@ void QtAutomotiveClusterDemo::keyReleaseEvent(QKeyEvent *e)
 
 void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
 {
+ /*
     int mod = 0;
 
-#define ACCELERATION_CONSTANT 6
+    #define ACCELERATION_CONSTANT 6
 
     if (!keys[Qt::Key_Down] && !keys[Qt::Key_Up]) {
         mod = -(accel/ACCELERATION_CONSTANT);
@@ -77,7 +112,6 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
             mod = ACCELERATION_CONSTANT;
 
             mod = ACCELERATION_CONSTANT * 2;
-            qDebug() << "apas sus";
     }
 
     if (keys[Qt::Key_Down]) {
@@ -85,7 +119,6 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
             mod = -ACCELERATION_CONSTANT;
 
             mod = -ACCELERATION_CONSTANT * 2;
-            qDebug() << "apas jos";
     }
 
     accel += mod;
@@ -95,7 +128,6 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
     if (accel < -127)
         accel = -127;
 
-    /* turning */
 #define TURN_CONSTANT 5
     mod = 0;
     if (!keys[Qt::Key_Left] && !keys[Qt::Key_Right]) {
@@ -117,15 +149,24 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
         turn = 32;
     if (turn < -32)
         turn = -32;
-
+*/
     //_speed->setValue(accel);
     //_turning->setValue(turn);
 
+
+
+
+
+    qDebug() << "acc: "<< accel << " turn: " << turn;
     sumo->move(accel, turn);
+
+
+
     //_batteryLevel->setValue(sumo->batteryLevel());
 
+    /*
     if (sumo && keys[Qt::Key_L])
-        sumo->longJump();
+    {sumo->longJump(); qDebug() << "apas tasta L";}
 
     if (sumo && keys[Qt::Key_H])
         sumo->highJump();
@@ -135,7 +176,7 @@ void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
 
     if (sumo && keys[Qt::Key_S])
         sumo->swing();
-
+    */
 
 }
 /*

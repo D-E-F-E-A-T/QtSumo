@@ -50,6 +50,14 @@ Rectangle {
     property real  speedValue: 0
     property int  gear: 0
     property int fuelValue: 30
+    property int acceleration: 0
+    property int turn: 0
+    property int modA: 0
+    property int modT: 0
+    property int acceleration_constant: 6
+    property int turn_constant: 5
+    property bool isAutorepeat: false
+    property int i: 0
 
     property bool turn_rightFlag: false
     property bool turn_leftFlag: false
@@ -453,21 +461,27 @@ Rectangle {
              anchors.leftMargin: 1
              anchors.topMargin: 3
              anchors.fill: parent
-             onClicked:{ flipable.flipped = !flipable.flipped
+             objectName: "on_off_button"
+             onClicked:{
+                 flipable.flipped = !flipable.flipped
                  startFlag = !startFlag
                  if(startFlag == true)
                  {
+
                      indicatorAnimateFocus.stop()               // stop indicator animation
                      dialEffectStop.stop()                      // stop dial animation
                      dialEffectStart.start()                    // start dial effect animation
                      indicatorAnimatedDim.start()               // startindictor effect animation
-                     rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
-                     digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
+                     //rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
+                     //digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
                      dummyAnimation.start()
+
+
                      myObject.buttonSlot(1);
                  }
                  if(startFlag == false)
                  {
+
                      dialEffectStart.stop()                     // stop dial effect animation
                      indicatorAnimatedDim.stop()                // stop indicator animation
                      indicatorAnimateFocus.start()              // start indicator focus annimation
@@ -485,6 +499,8 @@ Rectangle {
                      fuelLeak.visible = 0
                      brake.visible = 0
                      battery.visible = 0
+
+
                      myObject.buttonSlot(0);
                  }
 
@@ -792,6 +808,203 @@ Rectangle {
         font.pixelSize: 25
     }
 }
+
+Item {
+    anchors.fill: parent
+    focus: true
+    Keys.onPressed: {
+        modA = 0;
+        modT = 0;
+
+        switch (event.key) {
+            case Qt.Key_Up:
+                isAutorepeat = event.isAutoRepeat;
+                if (acceleration >= 0)
+                    modA = acceleration_constant;
+                modA = acceleration_constant * 2;
+                event.accepted = true; break;
+
+            case Qt.Key_Down:
+                isAutorepeat = event.isAutoRepeat;
+                if (acceleration <= 0)
+                    modA = -acceleration_constant;
+                modA = -acceleration_constant * 2;
+                event.accepted = true; break;
+
+            case Qt.Key_Left:
+                isAutorepeat = event.isAutoRepeat;
+                modT = -turn_constant;
+                event.accepted = true; break;
+
+            case Qt.Key_Right:
+                isAutorepeat = event.isAutoRepeat;
+                modT = turn_constant;
+                event.accepted = true; break;
+        }
+
+        acceleration += modA;
+        turn += modT;
+
+        if (acceleration > 127)
+            acceleration = 127;
+        if (acceleration < -127)
+            acceleration = -127;
+
+        if (turn > 32)
+            turn = 32;
+        if (turn < -32)
+            turn = -32;
+
+        myObject.updateAcceleration(acceleration);
+        myObject.updateTurn(turn);
+    }
+
+    Keys.onReleased: {
+        if (!isAutorepeat) {
+            /*
+            modA = acceleration;
+            if (modA > 0) {
+                for (i = 10000; i > 0; i--) {
+                    modA -= 0.01;
+                }
+                modA = 0;
+            }
+            if (modA < 0) {
+                for (i = 10000; i > 0; i--) {
+                    modA += 0.01;
+                }
+                modA = 0;
+            }
+            acceleration = modA;
+            */
+            myObject.updateAcceleration(acceleration=0);
+            myObject.updateTurn(turn=0);
+        }
+    }
+}
+
+
+/*
+Item {
+    anchors.fill: parent
+    focus: true*/
+    //Keys.onPressed: {
+        /*
+        switch (event.key) { // pentru setare viteza -> return la o functie de genul..
+            case Qt.Key_Left: console.log("move left"); event.accepted = true; break;
+            case Qt.Key_Right: console.log("move right"); event.accepted = true; break;
+            case Qt.Key_Up:
+                if (event.isAutoRepeat) {
+                    console.log("move up autorepeat");
+                    acceleration = acceleration * 2;
+                    myObject.goUp(acceleration);
+                } else {
+                    acceleration = 6;
+                    myObject.goUp(acceleration);
+                }
+
+                event.accepted = true; break;
+            case Qt.Key_Down: console.log("move down"); event.accepted = true; break;
+        } */
+
+/*
+        if (!event.key===Qt.Key_Down && !event.key===Qt.Key_Up) {
+            mod = -(accel/acceleration_constant);
+            if (mod == 0 && accel)
+                mod = 1 * (accel < 0 ? 1 : -1);
+        }
+
+        if (event.key===Qt.Key_Up) {
+            if (event.isAutoRepeat) {
+                if (accel >= 0)
+                    mod = acceleration_constant;
+
+                    mod = acceleration_constant * 2;
+                    console.log("apas sus autorepeat");
+            } else {
+                if (accel >= 0)
+                    mod = acceleration_constant;
+
+                    mod = acceleration_constant * 2;
+                    //console.log("apas sus");
+            }
+
+        }
+
+        if (event.key===Qt.Key_Down) {
+            if (accel <= 0)
+                mod = -acceleration_constant;
+
+                mod = -acceleration_constant * 2;
+                //console.log("apas jos");
+        }
+
+        accel += mod;
+
+        if (accel > 127)
+            accel = 127;
+        if (accel < -127)
+            accel = -127;
+
+
+        mod = 0;
+
+        if (!(event.key === Qt.Key_Left) && !(event.key===Qt.Key_Right)) {
+            mod = -turn/turn_constant * 3;
+
+            if (Math.abs(turn) < turn_constant && turn)
+                mod = -turn;
+        }
+
+        if (event.key===Qt.Key_Left)
+            mod = -turn_constant;
+
+        if (event.key===Qt.Key_Right)
+            mod = turn_constant;
+
+        turn += mod;
+        if (turn > 32)
+            turn = 32;
+        if (turn < -32)
+            turn = -32;
+
+        //_speed->setValue(accel);
+        //_turning->setValue(turn);
+
+
+        myObject.goUp(accel, turn);
+        //_batteryLevel->setValue(sumo->batteryLevel());
+
+        /*
+        if (sumo && keys[Qt::Key_L])
+        {sumo->longJump(); qDebug() << "apas tasta L";}
+
+        if (sumo && keys[Qt::Key_H])
+            sumo->highJump();
+
+        if (sumo && keys[Qt::Key_T])
+            sumo->tap();
+
+        if (sumo && keys[Qt::Key_S])
+            sumo->swing();
+        */
+
+    //}
+   // Keys.onReleased: {
+        /*
+        mod = -(accel/acceleration_constant);
+        if (mod == 0 && accel)
+            mod = 1 * (accel < 0 ? 1 : -1);
+        */
+/*
+        mod = -turn/turn_constant * 3;
+        if (Math.abs(turn) < turn_constant && turn)
+            mod = -turn;
+    }
+
+    */
+
+//}
 
 }
 

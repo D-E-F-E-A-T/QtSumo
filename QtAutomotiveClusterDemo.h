@@ -25,20 +25,22 @@ class QtAutomotiveClusterDemo : public QMainWindow
     int accel;
     int turn;
 
-    sumo::Control *sumo = 0;
+    sumo::Control *sumo;
 
     int timer_id;
 
 public:
     QtAutomotiveClusterDemo(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~QtAutomotiveClusterDemo();
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
+    Q_INVOKABLE void keyPressEvent(QKeyEvent *e);
+    Q_INVOKABLE void keyReleaseEvent(QKeyEvent *e);
     void timerEvent(QTimerEvent *);
+    //bool eventFilter(QObject *target, QEvent *event);
 
 public slots:
 	void buttonSlot(int signal);
-    //void on__open_close_clicked(bool);
+    void updateAcceleration(int acc);
+    void updateTurn(int trn);
 
 private:
 	Ui::QtAutomotiveClusterDemoClass ui;
