@@ -52,12 +52,13 @@ void QtAutomotiveClusterDemo::buttonSlot(int signal)
     if(signal == 1)
 	{
         if (sumo == 0) qDebug() << "Connected! " << signal;
+        //QObject *rpm_dial = parent()->findChild<QObject*>("rpm_dial");
+        //qDebug() << "sunt aici 1 " << rpm_dial->objectName();
+
         sumo = new sumo::Control(new sumo::ImageMplayerPopen());
         if (!sumo->open()) {
           delete sumo;
           sumo = 0;
-          //QObject *newBtn = parent()->findChild<QObject*>("on_off_button");
-          //newBtn->setProperty("flipped", false);
           return;
         }
 

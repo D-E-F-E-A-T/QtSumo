@@ -73,9 +73,10 @@ Rectangle {
     y: 0
     width: 1024
     height: 600
-    color: "#0b0404"
+    color: "transparent" // 0b0404
     radius: 0
-    gradient: Gradient {
+    /*gradient: Gradient {
+
         GradientStop {
             position: 0.675
             color: "#0b0303"
@@ -90,12 +91,19 @@ Rectangle {
             position: 0.954
             color: "#1acb81"
         }
-
-    }
+    }*/
     visible: true
     border.width: 0
     border.color: "#130101"
     z: 2
+
+    Image {
+      id: imageBackground
+      source: "pics/background.jpg"
+      width: parent.width
+      height: parent.height
+      fillMode: Image.Stretch
+    }
 
     // start dial glowing effect
     ParallelAnimation{
@@ -154,7 +162,7 @@ Rectangle {
         running: false
         NumberAnimation{ target:straightBeam; property: "opacity"; to: 0.2; duration: 100}
         NumberAnimation{ target:oilIndication; property: "opacity"; to: 0.2; duration: 100}
-        NumberAnimation{ target:battery_low; property: "opacity"; to: 0.2; duration: 100 }
+        NumberAnimation{ target:battery_low; property: "opacity"; to: 1; duration: 100 }
         NumberAnimation{ target:petrol_indicator; property: "opacity"; to: 0.2; duration: 100 }
         NumberAnimation{ target:parkingLight; property: "opacity"; to: 0.2; duration: 100 }
         NumberAnimation{ target:brakeDamage; property: "opacity"; to: 0.2; duration: 100 }
@@ -166,7 +174,7 @@ Rectangle {
         running: false
         NumberAnimation{ target:straightBeam; property: "opacity"; to: 1; duration: 100}
         NumberAnimation{ target:oilIndication; property: "opacity"; to: 1; duration: 100}
-        NumberAnimation{ target:battery_low; property: "opacity"; to: 1; duration: 100 }
+        NumberAnimation{ target:battery_low; property: "opacity"; to: 0.2; duration: 100 }
         NumberAnimation{ target:petrol_indicator; property: "opacity"; to: 1; duration: 100 }
         NumberAnimation{ target:parkingLight; property: "opacity"; to: 1; duration: 100 }
         NumberAnimation{ target:brakeDamage; property: "opacity"; to: 1; duration: 100 }
@@ -474,8 +482,7 @@ Rectangle {
                      indicatorAnimatedDim.start()               // startindictor effect animation
                      //rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
                      //digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
-                     dummyAnimation.start()
-
+                     //dummyAnimation.start()
 
                      myObject.buttonSlot(1);
                  }
@@ -553,6 +560,7 @@ Rectangle {
         y: 43
         z: 5
         scale: 0.4
+        visible: false
         source: "pics/petrol.png"
     }
 
@@ -561,6 +569,7 @@ Rectangle {
         x: 821
         y: 37
         z: 5
+        visible: false
         source: "pics/parkingLight.png"
     }
 
@@ -569,6 +578,7 @@ Rectangle {
         x: 142
         y: 37
         z: 5
+        visible: false
         source: "pics/High_Beam_Indicator.png"
     }
 
@@ -577,6 +587,7 @@ Rectangle {
         x: 929
         y: 136
         z: 5
+        visible: false
         source: "pics/Brake_failure.png"
     }
 
@@ -587,7 +598,8 @@ Rectangle {
         scale: 0.8
         rotation: 90
         z: 9
-        source: "pics/battery_low1.png"
+        opacity: 0.2
+        source: "pics/battery_low.png"
     }
 
     Image {
@@ -595,6 +607,7 @@ Rectangle {
         x: 30
         y: 152
         z: 5
+        visible: false
         source: "pics/oilIndicator.png"
     }
     Image {
@@ -602,8 +615,8 @@ Rectangle {
         x: -49
         y: 20
         width: 1150
-        visible: true
         opacity: 0
+        visible: false
         source: "pics/dropDown.png"
     }
 
@@ -857,6 +870,8 @@ Item {
 
         myObject.updateAcceleration(acceleration);
         myObject.updateTurn(turn);
+        rpm_dial.value = acceleration;
+        speed_dial.value = turn;
     }
 
     Keys.onReleased: {
@@ -879,6 +894,8 @@ Item {
             */
             myObject.updateAcceleration(acceleration=0);
             myObject.updateTurn(turn=0);
+            rpm_dial.value = acceleration;
+            speed_dial.value = turn;
         }
     }
 }
