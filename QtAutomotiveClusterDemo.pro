@@ -14,6 +14,8 @@ CONFIG += console
 CONFIG += c++11
 CONFIG += thread
 
+QMAKE_CXXFLAGS += -std=c++11
+
 INCLUDEPATH += ./GeneratedFiles \
     .build \
     . \
