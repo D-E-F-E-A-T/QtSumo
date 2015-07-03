@@ -34,6 +34,11 @@ bool QtAutomotiveClusterDemo::eventFilter(QObject *target, QEvent *event)
 void QtAutomotiveClusterDemo::updateAcceleration(int acc) {
     //qDebug() << "acc: "<< acc << " turn: " << trn;
 
+    if (acc > 127)
+        acc = 127;
+    if (acc < -127)
+        acc = -127;
+
     if (sumo) {
         accel = acc;
     }
@@ -41,6 +46,11 @@ void QtAutomotiveClusterDemo::updateAcceleration(int acc) {
 
 void QtAutomotiveClusterDemo::updateTurn(int trn) {
     //qDebug() << "acc: "<< acc << " turn: " << trn;
+
+    if (trn > 32)
+        trn = 32;
+    if (trn < -32)
+        trn = -32;
 
     if (sumo) {
         turn = trn;

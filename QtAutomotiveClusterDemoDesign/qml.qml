@@ -327,7 +327,8 @@ Rectangle {
         running: false
         repeat: true
         onTriggered: {
-            rpmSpeedMeter()
+            //rpmSpeedMeter()
+            console.log(acceleration + " | " + turn)
         }
     }
 
@@ -823,6 +824,57 @@ Rectangle {
 }
 
 Item {
+    id: root
+    anchors.fill: parent
+    focus: true
+    property bool isMovingUp: false
+
+    Keys.onLeftPressed: {
+        //console.log("left");
+        turn -= 5
+        myObject.updateTurn(turn);
+        rpm_dial.value = -turn;
+        if(event.isAutoRepeat) return;
+    }
+    Keys.onRightPressed: {
+        //console.log("right");
+        turn += 5
+        myObject.updateTurn(turn);
+        rpm_dial.value = turn;
+        if(event.isAutoRepeat) return;
+    }
+
+    Keys.onUpPressed: {
+        acceleration += 6
+        //console.log("up");
+        myObject.updateAcceleration(acceleration);
+        speed_dial.value = acceleration;
+        if(event.isAutoRepeat) return;
+    }
+
+    Keys.onDownPressed: {
+        acceleration -= 6
+        //console.log("up");
+        myObject.updateAcceleration(acceleration);
+        speed_dial.value = -acceleration;
+        if(event.isAutoRepeat) return;
+    }
+
+
+    Keys.onReleased: {
+        if (event.isAutoRepeat) return ;
+        acceleration = 0
+        turn = 0
+        myObject.updateAcceleration(acceleration);
+        myObject.updateTurn(turn);
+        rpm_dial.value = acceleration;
+        speed_dial.value = turn;
+    }
+
+}
+
+/*
+Item {
     anchors.fill: parent
     focus: true
     Keys.onPressed: {
@@ -891,7 +943,7 @@ Item {
                 modA = 0;
             }
             acceleration = modA;
-            */
+
             myObject.updateAcceleration(acceleration=0);
             myObject.updateTurn(turn=0);
             rpm_dial.value = acceleration;
@@ -899,6 +951,7 @@ Item {
         }
     }
 }
+*/
 
 
 /*
