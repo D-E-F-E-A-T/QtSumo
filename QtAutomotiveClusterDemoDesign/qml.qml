@@ -631,7 +631,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: "FIESC"
+         text: "FIESC - Suceava 2015"
          smooth: true
          opacity: 0
          style: Text.Raised
