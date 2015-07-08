@@ -20,8 +20,6 @@ class QtAutomotiveClusterDemo : public QMainWindow
 {
 	Q_OBJECT
 
-    QMap<int, bool> keys;
-
     int accel;
     int turn;
 
@@ -32,8 +30,8 @@ class QtAutomotiveClusterDemo : public QMainWindow
 public:
     QtAutomotiveClusterDemo(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 	~QtAutomotiveClusterDemo();
-    Q_INVOKABLE void keyPressEvent(QKeyEvent *e);
-    Q_INVOKABLE void keyReleaseEvent(QKeyEvent *e);
+    //Q_INVOKABLE void keyPressEvent(QKeyEvent *e);
+    //Q_INVOKABLE void keyReleaseEvent(QKeyEvent *e);
     void timerEvent(QTimerEvent *);
     //bool eventFilter(QObject *target, QEvent *event);
 
@@ -41,6 +39,20 @@ public slots:
 	void buttonSlot(int signal);
     void updateAcceleration(int acc);
     void updateTurn(int trn);
+    void flipUpsideDown();
+    void flipDownsideUp();
+    void balance();
+    void highJump();
+    void longJump();
+    void swing();
+    void growingCircles();
+    void slalom();
+    void tap();
+    void quickTurnRight();
+    void quickTurnRightLeft();
+    void turnToBalance();
+    void lookLeftAndRight();
+    void turnAndJump();
 
 private:
 	Ui::QtAutomotiveClusterDemoClass ui;

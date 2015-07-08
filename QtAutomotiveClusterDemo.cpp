@@ -15,21 +15,6 @@ QtAutomotiveClusterDemo::QtAutomotiveClusterDemo(QWidget *parent, Qt::WindowFlag
     setFocusPolicy(Qt::StrongFocus);
     installEventFilter(this);
 }
-/*
-bool QtAutomotiveClusterDemo::eventFilter(QObject *target, QEvent *event)
-{
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-
-        if (keyEvent->key() == Qt::Key_Escape)
-        {
-            this->close();
-            return QMainWindow::eventFilter(target,event);
-        }
-    }
-    return QMainWindow::eventFilter(target,event);
-}*/
 
 void QtAutomotiveClusterDemo::updateAcceleration(int acc) {
     //qDebug() << "acc: "<< acc << " turn: " << trn;
@@ -84,11 +69,9 @@ void QtAutomotiveClusterDemo::buttonSlot(int signal)
 	}
 }
 
-QtAutomotiveClusterDemo::~QtAutomotiveClusterDemo()
-{
+QtAutomotiveClusterDemo::~QtAutomotiveClusterDemo(){}
 
-}
-
+/*
 void QtAutomotiveClusterDemo::keyPressEvent(QKeyEvent *e)
 {
     if (!e->isAutoRepeat()) {
@@ -104,110 +87,84 @@ void QtAutomotiveClusterDemo::keyReleaseEvent(QKeyEvent *e)
     }
     QWidget::keyReleaseEvent(e);
 }
-
+*/
 void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
 {
- /*
-    int mod = 0;
 
-    #define ACCELERATION_CONSTANT 6
-
-    if (!keys[Qt::Key_Down] && !keys[Qt::Key_Up]) {
-        mod = -(accel/ACCELERATION_CONSTANT);
-        if (mod == 0 && accel)
-            mod = 1 * (accel < 0 ? 1 : -1);
-    }
-
-    if (keys[Qt::Key_Up]) {
-        if (accel >= 0)
-            mod = ACCELERATION_CONSTANT;
-
-            mod = ACCELERATION_CONSTANT * 2;
-    }
-
-    if (keys[Qt::Key_Down]) {
-        if (accel <= 0)
-            mod = -ACCELERATION_CONSTANT;
-
-            mod = -ACCELERATION_CONSTANT * 2;
-    }
-
-    accel += mod;
-
-    if (accel > 127)
-        accel = 127;
-    if (accel < -127)
-        accel = -127;
-
-#define TURN_CONSTANT 5
-    mod = 0;
-    if (!keys[Qt::Key_Left] && !keys[Qt::Key_Right]) {
-        mod = -turn/TURN_CONSTANT * 3;
-
-
-        if (abs(turn) < TURN_CONSTANT && turn)
-            mod = -turn;
-    }
-
-    if (keys[Qt::Key_Left])
-        mod = -TURN_CONSTANT;
-
-    if (keys[Qt::Key_Right])
-        mod = TURN_CONSTANT;
-
-    turn += mod;
-    if (turn > 32)
-        turn = 32;
-    if (turn < -32)
-        turn = -32;
-*/
-    //_speed->setValue(accel);
-    //_turning->setValue(turn);
-
-
-
-
-
-    qDebug() << "acc: "<< accel << " turn: " << turn;
+    //qDebug() << "acc: "<< accel << " turn: " << turn;
     sumo->move(accel, turn);
-
-
 
     //_batteryLevel->setValue(sumo->batteryLevel());
 
-    /*
-    if (sumo && keys[Qt::Key_L])
-    {sumo->longJump(); qDebug() << "apas tasta L";}
-
-    if (sumo && keys[Qt::Key_H])
-        sumo->highJump();
-
-    if (sumo && keys[Qt::Key_T])
-        sumo->tap();
-
-    if (sumo && keys[Qt::Key_S])
-        sumo->swing();
-    */
-
 }
-/*
-void QtAutomotiveClusterDemo::on__open_close_clicked(bool)
-{
-    if (sumo) {
-        killTimer(timer_id);
-        sumo->close();
-        delete sumo; sumo = 0;
-        //_open_close->setText("Open");
-    } else {
-        sumo = new sumo::Control(new sumo::ImageMplayerPopen());
-        if (!sumo->open()) {
-            delete sumo;
-            sumo = 0;
-            return;
-        }
 
-        timer_id = startTimer(75);
-        //_open_close->setText("Close");
-    }
+void QtAutomotiveClusterDemo::flipUpsideDown(){
+    if (sumo)
+            sumo->flipUpsideDown();
 }
-*/
+
+void QtAutomotiveClusterDemo::flipDownsideUp(){
+    if (sumo)
+            sumo->flipDownsideUp();
+}
+
+void QtAutomotiveClusterDemo::balance(){
+    if (sumo)
+            sumo->handstandBalance();
+}
+
+void QtAutomotiveClusterDemo::highJump(){
+    if (sumo)
+            sumo->highJump();
+}
+
+void QtAutomotiveClusterDemo::longJump(){
+    if (sumo)
+            sumo->longJump();
+}
+
+void QtAutomotiveClusterDemo::swing(){
+    if (sumo)
+            sumo->swing();
+}
+
+void QtAutomotiveClusterDemo::growingCircles(){
+    if (sumo)
+            sumo->growingCircles();
+}
+
+void QtAutomotiveClusterDemo::slalom(){
+    if (sumo)
+            sumo->slalom();
+}
+
+void QtAutomotiveClusterDemo::tap(){
+    if (sumo)
+            sumo->tap();
+}
+
+void QtAutomotiveClusterDemo::quickTurnRight(){
+    if (sumo)
+            sumo->quickTurnRight();
+}
+
+void QtAutomotiveClusterDemo::quickTurnRightLeft(){
+    if (sumo)
+            sumo->quickTurnRightLeft();
+}
+
+void QtAutomotiveClusterDemo::turnToBalance(){
+    if (sumo)
+            sumo->turnToBalance();
+}
+
+void QtAutomotiveClusterDemo::lookLeftAndRight(){
+    if (sumo)
+            sumo->lookLeftAndRight();
+}
+
+void QtAutomotiveClusterDemo::turnAndJump(){
+    if (sumo)
+            sumo->turnAndJump();
+}
+

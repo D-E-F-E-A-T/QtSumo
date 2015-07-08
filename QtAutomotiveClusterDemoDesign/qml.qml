@@ -58,6 +58,7 @@ Rectangle {
     property int turn_constant: 5
     property bool isAutorepeat: false
     property int i: 0
+    property bool upSideDown: false
 
     property bool turn_rightFlag: false
     property bool turn_leftFlag: false
@@ -115,8 +116,8 @@ Rectangle {
         NumberAnimation{target: digitRectangle; property: "opacity"; to: 1.0; duration: 1000}
         NumberAnimation{target: line; property: "opacity"; to: 1.0; duration: 1000}
 
-        NumberAnimation{target: totalDistance; property: "x"; to: 125; duration: 800}
-        NumberAnimation{target: totalDistance; property: "y"; to: 475; duration: 800}
+        NumberAnimation{target: totalDistance; property: "x"; to: 80; duration: 800}
+        NumberAnimation{target: totalDistance; property: "y"; to: 500; duration: 800}
         NumberAnimation{target: destination; property: "opacity"; to: 1.0; duration: 1000}
         NumberAnimation{target: destination; property: "x"; to: 323; duration: 800}
         NumberAnimation{target: destination; property: "y"; to: 475; duration: 800}
@@ -124,8 +125,8 @@ Rectangle {
         NumberAnimation{target: time; property: "x"; to: 597; duration: 800}
         NumberAnimation{target: time; property: "y"; to: 475; duration: 800}
         NumberAnimation{target: date; property: "opacity"; to: 1.0; duration: 1000}
-        NumberAnimation{target: date; property: "x"; to: 820; duration: 800}
-        NumberAnimation{target: date; property: "y"; to: 475; duration: 800}
+        NumberAnimation{target: date; property: "x"; to: 780; duration: 800}
+        NumberAnimation{target: date; property: "y"; to: 500; duration: 800}
         NumberAnimation{target: turn_left; property: "opacity"; to: 0.1; duration: 800}
         NumberAnimation{target: turn_right; property: "opacity"; to: 0.1; duration: 800}
 
@@ -164,7 +165,7 @@ Rectangle {
         NumberAnimation{ target:oilIndication; property: "opacity"; to: 0.2; duration: 100}
         NumberAnimation{ target:battery_low; property: "opacity"; to: 1; duration: 100 }
         NumberAnimation{ target:petrol_indicator; property: "opacity"; to: 0.2; duration: 100 }
-        NumberAnimation{ target:parkingLight; property: "opacity"; to: 0.2; duration: 100 }
+        //NumberAnimation{ target:parkingLight; property: "opacity"; to: 0.2; duration: 100 }
         NumberAnimation{ target:brakeDamage; property: "opacity"; to: 0.2; duration: 100 }
 
     }
@@ -176,7 +177,7 @@ Rectangle {
         NumberAnimation{ target:oilIndication; property: "opacity"; to: 1; duration: 100}
         NumberAnimation{ target:battery_low; property: "opacity"; to: 0.2; duration: 100 }
         NumberAnimation{ target:petrol_indicator; property: "opacity"; to: 1; duration: 100 }
-        NumberAnimation{ target:parkingLight; property: "opacity"; to: 1; duration: 100 }
+        //NumberAnimation{ target:parkingLight; property: "opacity"; to: 1; duration: 100 }
         NumberAnimation{ target:brakeDamage; property: "opacity"; to: 1; duration: 100 }
 
     }
@@ -484,6 +485,7 @@ Rectangle {
                      //rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
                      //digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
                      //dummyAnimation.start()
+                     battery_low.source = "pics/battery_med.png"
 
                      myObject.buttonSlot(1);
                  }
@@ -507,6 +509,7 @@ Rectangle {
                      fuelLeak.visible = 0
                      brake.visible = 0
                      battery.visible = 0
+                     battery_low.source = "pics/battery_low.png"
 
 
                      myObject.buttonSlot(0);
@@ -567,11 +570,13 @@ Rectangle {
 
     Image {
         id: parkingLight
-        x: 821
+        x: 720
         y: 37
         z: 5
-        visible: false
-        source: "pics/parkingLight.png"
+        width: 261
+        height: 80
+        //visible: false
+        source: "pics/usv.png" // parkingLight
     }
 
     Image {
@@ -626,7 +631,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: ""
+         text: "FIESC"
          smooth: true
          opacity: 0
          style: Text.Raised
@@ -668,7 +673,7 @@ Rectangle {
          x: 436
          y: 103
          color: "#a5bcc6"
-         text: ""
+         text: "Sofronia Ciprian Andrei"
          smooth: true
          opacity: 0
          style: Text.Raised
@@ -834,6 +839,7 @@ Item {
         turn -= 5
         myObject.updateTurn(turn);
         rpm_dial.value = -turn;
+        event.accepted = true;
         if(event.isAutoRepeat) return;
     }
     Keys.onRightPressed: {
@@ -841,6 +847,7 @@ Item {
         turn += 5
         myObject.updateTurn(turn);
         rpm_dial.value = turn;
+        event.accepted = true;
         if(event.isAutoRepeat) return;
     }
 
@@ -849,6 +856,7 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = acceleration;
+        event.accepted = true;
         if(event.isAutoRepeat) return;
     }
 
@@ -857,6 +865,7 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = -acceleration;
+        event.accepted = true;
         if(event.isAutoRepeat) return;
     }
 
@@ -869,6 +878,69 @@ Item {
         myObject.updateTurn(turn);
         rpm_dial.value = acceleration;
         speed_dial.value = turn;
+    }
+
+    Keys.onPressed: {
+        switch (event.key) {
+            case Qt.Key_U:
+                if (upSideDown) {
+                    upSideDown = false
+                    myObject.flipUpsideDown()
+                }
+                else {
+                    upSideDown = true
+                    myObject.flipDownsideUp()
+                }
+                event.accepted = true; break;
+
+            case Qt.Key_B:
+                myObject.handstandBalance()
+                event.accepted = true; break;
+
+            case Qt.Key_H:
+                myObject.highJump()
+                event.accepted = true; break;
+
+            case Qt.Key_L:
+                myObject.longJump()
+                event.accepted = true; break;
+
+            case Qt.Key_W:
+                myObject.swing()
+                event.accepted = true; break;
+
+            case Qt.Key_G:
+                myObject.growingCircles()
+                event.accepted = true; break;
+
+            case Qt.Key_S:
+                myObject.slalom()
+                event.accepted = true; break;
+
+            case Qt.Key_T:
+                myObject.tap()
+                event.accepted = true; break;
+
+            case Qt.Key_6:
+                myObject.quickTurnRight()
+                event.accepted = true; break;
+
+            case Qt.Key_4:
+                myObject.quickTurnRightLeft()
+                event.accepted = true; break;
+
+            case Qt.Key_0:
+                myObject.turnToBalance()
+                event.accepted = true; break;
+
+            case Qt.Key_5:
+                myObject.lookLeftAndRight()
+                event.accepted = true; break;
+
+            case Qt.Key_8:
+                myObject.turnAndJump()
+                event.accepted = true; break;
+        }
     }
 
 }
