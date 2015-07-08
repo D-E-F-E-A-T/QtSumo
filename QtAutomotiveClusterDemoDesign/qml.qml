@@ -497,7 +497,7 @@ Rectangle {
                      indicatorAnimateFocus.start()              // start indicator focus annimation
                      dialEffectStop.start()                     // start dial effect stop animation
                      rpmAndspeedUpdate.running = false
-                     digitalSpeedUpdate.running = true
+                     //digitalSpeedUpdate.running = true
                      dummyAnimation.stop()
                       leftTurn.running = false
                      rightTurn.running = false
@@ -856,6 +856,7 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = acceleration;
+        digitalSpeed.text = acceleration
         event.accepted = true;
         if(event.isAutoRepeat) return;
     }
@@ -865,6 +866,7 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = -acceleration;
+        digitalSpeed.text = -acceleration
         event.accepted = true;
         if(event.isAutoRepeat) return;
     }
@@ -878,6 +880,7 @@ Item {
         myObject.updateTurn(turn);
         rpm_dial.value = acceleration;
         speed_dial.value = turn;
+        digitalSpeed.text = acceleration
     }
 
     Keys.onPressed: {
