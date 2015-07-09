@@ -19,9 +19,11 @@ namespace sumo {
 class QtAutomotiveClusterDemo : public QMainWindow 
 {
 	Q_OBJECT
+    Q_PROPERTY(int batteryLvl READ batteryLvl WRITE setbatteryLvl NOTIFY batteryChanged)
 
     int accel;
     int turn;
+    int battery;
 
     sumo::Control *sumo;
 
@@ -33,6 +35,10 @@ public:
     //Q_INVOKABLE void keyPressEvent(QKeyEvent *e);
     //Q_INVOKABLE void keyReleaseEvent(QKeyEvent *e);
     void timerEvent(QTimerEvent *);
+    void setbatteryLvl(int newVal);
+    int batteryLvl() const {
+        return battery;
+    }
     //bool eventFilter(QObject *target, QEvent *event);
 
 public slots:
@@ -53,6 +59,9 @@ public slots:
     void turnToBalance();
     void lookLeftAndRight();
     void turnAndJump();
+
+signals:
+    void batteryChanged();
 
 private:
 	Ui::QtAutomotiveClusterDemoClass ui;

@@ -9,7 +9,7 @@
 #include "lib/image.h"
 
 QtAutomotiveClusterDemo::QtAutomotiveClusterDemo(QWidget *parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags), accel(0), turn(0), sumo(0)
+    : QMainWindow(parent, flags), accel(0), turn(0), battery(0), sumo(0)
 {
 	ui.setupUi(this);
     setFocusPolicy(Qt::StrongFocus);
@@ -39,6 +39,13 @@ void QtAutomotiveClusterDemo::updateTurn(int trn) {
 
     if (sumo) {
         turn = trn;
+    }
+}
+
+void QtAutomotiveClusterDemo::setbatteryLvl(int newVal) {  // <--- do your stuff to update the value
+    if (newVal != battery) {
+        battery = newVal;
+        emit batteryChanged();     // <--- emit signal to notify QML!
     }
 }
 
@@ -90,12 +97,14 @@ void QtAutomotiveClusterDemo::keyReleaseEvent(QKeyEvent *e)
 */
 void QtAutomotiveClusterDemo::timerEvent(QTimerEvent *)
 {
+    if (sumo) {
+         //qDebug() << "acc: "<< accel << " turn: " << turn;
+        sumo->move(accel, turn);
 
-    //qDebug() << "acc: "<< accel << " turn: " << turn;
-    sumo->move(accel, turn);
-
-    //_batteryLevel->setValue(sumo->batteryLevel());
-
+        //qDebug() << "btr: "<< sumo->batteryLevel();
+        setbatteryLvl(sumo->batteryLevel());
+        //_batteryLevel->setValue(sumo->batteryLevel());
+    }
 }
 
 void QtAutomotiveClusterDemo::flipUpsideDown(){

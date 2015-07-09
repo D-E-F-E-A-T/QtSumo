@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     QString branch = qApp->applicationDirPath() + "/../";
     QtAutomotiveClusterDemo w;
-    view.rootContext()->setContextProperty("myObject", &w);				// set the myObject to communicate between qml and c++
+    view.rootContext()->setContextProperty("myObject", &w);				// set the myObject to communicate between qml and c++ ALWAYS before setting the QML file
 
 #ifdef RESOLUTION_1024x600
     QTextStream(stdout) << branch.toLatin1() + "/QtAutomotiveClusterDemoDesign/qml_1024x600.qml" << endl;

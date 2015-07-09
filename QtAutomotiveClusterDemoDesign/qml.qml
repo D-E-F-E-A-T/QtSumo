@@ -49,7 +49,7 @@ Rectangle {
     property real  rpmValue: 0
     property real  speedValue: 0
     property int  gear: 0
-    property int fuelValue: 30
+    property int fuelValue: 0
     property int acceleration: 0
     property int turn: 0
     property int modA: 0
@@ -59,6 +59,7 @@ Rectangle {
     property bool isAutorepeat: false
     property int i: 0
     property bool upSideDown: false
+    property int res: 0
 
     property bool turn_rightFlag: false
     property bool turn_leftFlag: false
@@ -76,23 +77,7 @@ Rectangle {
     height: 600
     color: "transparent" // 0b0404
     radius: 0
-    /*gradient: Gradient {
 
-        GradientStop {
-            position: 0.675
-            color: "#0b0303"
-        }
-
-        GradientStop {
-            position: 0.888
-            color: "#000000"
-        }
-
-        GradientStop {
-            position: 0.954
-            color: "#1acb81"
-        }
-    }*/
     visible: true
     border.width: 0
     border.color: "#130101"
@@ -421,18 +406,43 @@ Rectangle {
         value: fuelValue
         Timer{
             id:f_meter
-            interval: 7000
+            interval: 1000
             running: true
             repeat: true
-            onTriggered: {
-                     if(fuelValue > 59){fuelValue = 1}
-                     if(fuelValue > 0 ){
-                     fuelValue = fuelValue - 1
-                     fuelMeter1.value = fuelValue}
+            onTriggered: { // 120
+                     if (fuelValue > 120) fuelValue = 120
+                     if (fuelValue < 0) fuelValue = 0
+                     if (startFlag == true) {
+                        res = (myObject.batteryLvl) * 120 / 100;
+                        fuelMeter1.value = fuelValue = res
+
+                         if (myObject.batteryLvl <= 100 && myObject.batteryLvl > 70) {
+                             battery_low.source = "pics/battery_full.png"
+                         }
+
+                         if (myObject.batteryLvl <= 70 && myObject.batteryLvl > 50) {
+                             battery_low.source = "pics/battery_med.png"
+                         }
+
+                         if (myObject.batteryLvl <= 50 && myObject.batteryLvl > 25) {
+                             battery_low.source = "pics/battery_low1.png"
+                         }
+
+                         if (myObject.batteryLvl <= 25 && myObject.batteryLvl > 0) {
+                             battery_low.source = "pics/battery_low.png"
+                         }
+
+                     } else {
+                         fuelMeter1.value = fuelValue = 0
+                         battery_low.source = "pics/battery_low.png"
+                     }
+
+
 
             }
         }
     }
+
     // engine start and stop button with flipable property
     Flipable {
          id: flipable
@@ -485,7 +495,8 @@ Rectangle {
                      //rpmAndspeedUpdate.running = true           // start rpmAndspeedUpdate timer
                      //digitalSpeedUpdate.running = true          // start digitalSpeedUpdate timer
                      //dummyAnimation.start()
-                     battery_low.source = "pics/battery_med.png"
+                     //battery_low.source = "pics/battery_med.png"
+                     //fuelMeter1.value = fuelValue + 110
 
                      myObject.buttonSlot(1);
                  }
@@ -510,6 +521,7 @@ Rectangle {
                      brake.visible = 0
                      battery.visible = 0
                      battery_low.source = "pics/battery_low.png"
+                     fuelMeter1.value = fuelValue = 0
 
 
                      myObject.buttonSlot(0);
@@ -839,6 +851,7 @@ Item {
         turn -= 5
         myObject.updateTurn(turn);
         rpm_dial.value = -turn;
+        turn_left.opacity = 1
         event.accepted = true;
         if(event.isAutoRepeat) return;
     }
@@ -847,6 +860,7 @@ Item {
         turn += 5
         myObject.updateTurn(turn);
         rpm_dial.value = turn;
+        turn_right.opacity = 1
         event.accepted = true;
         if(event.isAutoRepeat) return;
     }
@@ -856,6 +870,8 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = acceleration;
+        if (acceleration > 127)
+            acceleration = 127;
         digitalSpeed.text = acceleration
         event.accepted = true;
         if(event.isAutoRepeat) return;
@@ -866,6 +882,8 @@ Item {
         //console.log("up");
         myObject.updateAcceleration(acceleration);
         speed_dial.value = -acceleration;
+        if (acceleration < -127)
+            acceleration = -127;
         digitalSpeed.text = -acceleration
         event.accepted = true;
         if(event.isAutoRepeat) return;
@@ -881,6 +899,8 @@ Item {
         rpm_dial.value = acceleration;
         speed_dial.value = turn;
         digitalSpeed.text = acceleration
+        turn_left.opacity = 0.1
+        turn_right.opacity = 0.1
     }
 
     Keys.onPressed: {
